@@ -1,0 +1,26 @@
+specVersion: 0.0.2
+schema:
+  file: ./schema.graphql
+dataSources:
+  - name: Particlon
+    kind: ethereum/contract
+    network: mainnet
+    source:
+      address: "0xCd2BA94E435e536dC48648EAb2f4F1db257BC64C"
+      abi: ERC721
+      startBlock: 14520502
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: ./src/mappingForOwnership.ts
+      entities:
+        - StandardNFT
+      abis:
+        - name: ERC721
+          file: ./abis/ERC721.json
+        - name: ERC1155
+          file: ./abis/ERC1155.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
